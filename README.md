@@ -6,7 +6,7 @@ Application pour gérer des commandes et les commandes en attente
 
 #define MAX_COMMANDES 100
 
-// Structure pour représenter une commande
+// Structure pour représenter une commande //
 
 typedef struct {
     int id;
@@ -18,7 +18,7 @@ Commande commandes[MAX_COMMANDES];
 
 int commandeCount = 0;
 
-// Fonction pour ajouter une commande
+// Fonction pour ajouter une commande //
 
 void ajouterCommande() {
 if (commandeCount >= MAX_COMMANDES) {
