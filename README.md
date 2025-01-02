@@ -1,135 +1,99 @@
-# gestion-commande
-Application pour gérer des commandes et les commandes en attente
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+# Restaurant Order Management System
 
-#define MAX_COMMANDES 100
+This project is a simple restaurant order management system that uses the `ncurses` library to provide a text-based user interface (TUI). The system allows you to add, cancel, search, and display orders.
 
-// Structure pour représenter une commande //
+## Features
 
-typedef struct {
-    int id;
-    char description[256];
-    int isPending;
-} Commande;
+- **Add Orders**: Add new orders with details such as order number, client name, date, status, and total amount.
+- **Search Orders**: Search for orders by their order number.
+- **Cancel Orders**: Cancel orders by changing their status to "cancelled".
+- **Display Order History**: Display a list of all orders.
+- **Display Pending Orders**: Display a list of orders that are in the "pending" status.
 
-Commande commandes[MAX_COMMANDES];
+## Requirements
 
-int commandeCount = 0;
+- `gcc` (GNU Compiler Collection)
+- `ncurses` library
 
-// Fonction pour ajouter une commande //
+## Installation
 
-void ajouterCommande() {
-if (commandeCount >= MAX_COMMANDES) {
-        printf("Erreur: Nombre maximum de commandes atteint.\n");
-        return;
-    }
-    int id;
-     char description[256];
-    printf("Entrez l'ID de la commande: ");
-    scanf("%d", &id);
-    getchar(); // Pour consommer le caractère de nouvelle ligne restant
-    printf("Entrez la description de la commande: ");
-    fgets(description, 256, stdin);
-    description[strcspn(description, "\n")] = 0; // Supprimer le saut de ligne
-    commandes[commandeCount].id = id;
-    strncpy(commandes[commandeCount].description, description, 256);
-    commandes[commandeCount].isPending = 1; // Par défaut, une commande est en attente
-    commandeCount++;
-    printf("Commande #%d ajoutée avec succès.\n", id);
-}
+### Linux
 
+1. Install the `ncurses` library (if not already installed):
+    ```sh
+    sudo apt-get install libncurses5-dev libncursesw5-dev
+    ```
 
-// Fonction pour annuler une commande
-void annulerCommande() {
-    int id;
-    printf("Entrez l'ID de la commande à annuler: ");
-    scanf("%d", &id);
+2. Clone the repository:
+    ```sh
+    git clone https://github.com/your-username/your-repo-name.git
+    cd your-repo-name
+    ```
 
-    int found = 0;
-    for (int i = 0; i < commandeCount; i++) {
-        if (commandes[i].id == id) {
-            found = 1;
-            for (int j = i; j < commandeCount - 1; j++) {
-                commandes[j] = commandes[j + 1];
-            }
-            commandeCount--;
-            printf("Commande #%d annulée avec succès.\n", id);
-            break;
-        }
-    }
-    if (!found) {
-        printf("Erreur: Commande #%d non trouvée.\n", id);
-    }
-}
+3. Compile the program:
+    ```sh
+    gcc -o order_management main.c -lncurses
+    ```
 
-// Fonction pour afficher les commandes en attente
-void afficherCommandesEnAttente() {
-    printf("Commandes en attente:\n");
-    for (int i = 0; i < commandeCount; i++) {
-        if (commandes[i].isPending) {
-            printf("- Commande #%d: %s\n", commandes[i].id, commandes[i].description);
-        }
-    }
-}
+### Windows
 
-// Fonction pour traiter une commande
-void traiterCommande() {
-    int id;
-    printf("Entrez l'ID de la commande à traiter: ");
-    scanf("%d", &id);
+1. Install [Cygwin](https://www.cygwin.com/) or [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) with `gcc` and `ncurses` support.
 
-    int found = 0;
-    for (int i = 0; i < commandeCount; i++) {
-        if (commandes[i].id == id && commandes[i].isPending) {
-            commandes[i].isPending = 0;
-            found = 1;
-            printf("Commande #%d traitée avec succès.\n", id);
-            break;
-        }
-    }
-    if (!found) {
-        printf("Erreur: Commande #%d non trouvée ou déjà traitée.\n", id);
-    }
-}
+2. Clone the repository:
+    ```sh
+    git clone https://github.com/your-username/your-repo-name.git
+    cd your-repo-name
+    ```
 
-// Menu interactif pour l'utilisateur
-void menu() {
-    int choix;
-    do {
-        printf("\nGestion des commandes:\n");
-        printf("1. Ajouter une commande\n");
-        printf("2. Annuler une commande\n");
-        printf("3. Afficher les commandes en attente\n");
-        printf("4. Traiter une commande\n");
-        printf("5. Quitter\n");
-        printf("Entrez votre choix: ");
-        scanf("%d", &choix);
+3. Compile the program using Cygwin or WSL:
+    ```sh
+    gcc -o order_management main.c -lncurses
+    ```
 
-        switch (choix) {
-            case 1:
-                ajouterCommande();
-                break;
-            case 2:
-                annulerCommande();
-                break;
-            case 3:
-                afficherCommandesEnAttente();
-                break;
-            case 4:
-                traiterCommande();
-                break;
-            case 5:
-                printf("Au revoir!\n");
-                break;
-            default:
-                printf("Choix invalide, veuillez réessayer.\n");
-        }
-    } while (choix != 5);
-}
+### macOS
 
-int main(int argc, char *argv[]) {
-	 menu();
-	return 0;
-}
+1. Install the `ncurses` library (if not already installed):
+    ```sh
+    brew install ncurses
+    ```
+
+2. Clone the repository:
+    ```sh
+    git clone https://github.com/your-username/your-repo-name.git
+    cd your-repo-name
+    ```
+
+3. Compile the program:
+    ```sh
+    gcc -o order_management main.c -lncurses
+    ```
+
+## Usage
+
+1. Run the compiled program:
+    ```sh
+    ./order_management
+    ```
+
+2. Follow the on-screen menu to add, search, cancel, and display orders.
+
+## Example Commands
+
+- **Add Order**: Follow the prompts to enter order details.
+- **Search Order**: Enter the order number to search for a specific order.
+- **Cancel Order**: Enter the order number to cancel it.
+- **Display Order History**: View all orders.
+- **Display Pending Orders**: View orders that are in the "pending" status.
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request with your changes.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Acknowledgments
+
+- [ncurses](https://invisible-island.net/ncurses/) for providing the TUI library
+- [GNU](https://www.gnu.org/software/gcc/) for the GCC compiler
